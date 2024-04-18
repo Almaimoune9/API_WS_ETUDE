@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Data
@@ -26,10 +28,30 @@ public class AnneeAcademiqueServiceImpl implements AnneeAcademiqueService {
             if (differenceJours <= 365) {
                 return anneeAcademiqueRepository.save(anneeAcademique);
             } else {
-                throw new IllegalArgumentException("La durée entre la date de début et la date de fin ne peut pas dépasser 365 jours.");
+                throw new IllegalArgumentException("La durée entre la dateDebut et la date de fin est maximum 365jours.");
             }
         } else {
             throw new IllegalArgumentException("La date de début doit être en cours.");
+        }
+    }
+
+    @Override
+    public List<AnneeAcademique> lire() {
+        return anneeAcademiqueRepository.findAll();
+    }
+
+    @Override
+    public Optional<AnneeAcademique> findById(Integer id) {
+        return anneeAcademiqueRepository.findById(id);
+    }
+
+    @Override
+    public String supprimer(Integer id) {
+        if (anneeAcademiqueRepository.existsById(id)){
+            anneeAcademiqueRepository.deleteById(id);
+            return "Année academique supprimée";
+        }else {
+            return "Année academique non trouvée";
         }
     }
 }
