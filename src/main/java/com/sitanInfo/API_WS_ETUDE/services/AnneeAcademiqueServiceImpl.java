@@ -22,16 +22,20 @@ public class AnneeAcademiqueServiceImpl implements AnneeAcademiqueService {
     public AnneeAcademique creerAnneeAcademique(AnneeAcademique anneeAcademique) {
         //Verifier si  la date est en cours
         Date dateActuelle = new Date();
-        if (anneeAcademique.getDateDeb().after(dateActuelle)) {
-            //Verifie la durée entre les dates
-            long differenceJours = Duration.between(anneeAcademique.getDateDeb().toInstant(), anneeAcademique.getDateFin().toInstant()).toDays();
-            if (differenceJours <= 365) {
-                return anneeAcademiqueRepository.save(anneeAcademique);
+        try {
+            if (anneeAcademique.getDateDeb().after(dateActuelle)) {
+                //Verifie la durée entre les dates
+                long differenceJours = Duration.between(anneeAcademique.getDateDeb().toInstant(), anneeAcademique.getDateFin().toInstant()).toDays();
+                if (differenceJours <= 365) {
+                    return anneeAcademiqueRepository.save(anneeAcademique);
+                } else {
+                    throw new IllegalArgumentException("La durée entre la dateDebut et la date de fin est maximum 365jours.");
+                }
             } else {
-                throw new IllegalArgumentException("La durée entre la dateDebut et la date de fin est maximum 365jours.");
+                throw new IllegalArgumentException("La date de début doit être en cours.");
             }
-        } else {
-            throw new IllegalArgumentException("La date de début doit être en cours.");
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(ex.getMessage());
         }
     }
 

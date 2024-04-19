@@ -18,9 +18,9 @@ public class AnneeAcademique extends AbstractEntity{
     private Long anneeFin;*/
     private Date dateDeb;
     private Date dateFin;
-    private String objectif;
-    /*private Boolean isActif;*/
-    private Date dateCloture;
+    /*private String objectif;
+    private Boolean isActif;
+    private Date dateCloture;*/
 
     @ManyToOne(fetch =  FetchType.LAZY)
     @JoinColumn(name = "etablissement")
