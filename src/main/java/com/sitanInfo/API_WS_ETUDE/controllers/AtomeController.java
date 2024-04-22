@@ -1,10 +1,8 @@
 package com.sitanInfo.API_WS_ETUDE.controllers;
 
 import com.sitanInfo.API_WS_ETUDE.model.Atomes;
-import com.sitanInfo.API_WS_ETUDE.model.Module;
 import com.sitanInfo.API_WS_ETUDE.services.AtomeService;
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@Data
+@RequestMapping
 public class AtomeController {
 
     @Autowired

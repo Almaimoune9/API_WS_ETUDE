@@ -1,7 +1,6 @@
 package com.sitanInfo.API_WS_ETUDE.controllers;
 
 import com.sitanInfo.API_WS_ETUDE.model.ModesAtomes;
-import com.sitanInfo.API_WS_ETUDE.model.Module;
 import com.sitanInfo.API_WS_ETUDE.services.ModeAtomeService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;

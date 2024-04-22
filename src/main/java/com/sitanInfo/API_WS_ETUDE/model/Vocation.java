@@ -15,8 +15,5 @@ public class Vocation extends AbstractEntity{
     private String description;
     private Boolean etat;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "etablissement")
-    private Etablissement etablissement;
 
 }

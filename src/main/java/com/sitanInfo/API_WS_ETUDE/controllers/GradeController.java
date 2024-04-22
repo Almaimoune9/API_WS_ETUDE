@@ -1,7 +1,7 @@
 package com.sitanInfo.API_WS_ETUDE.controllers;
 
 import com.sitanInfo.API_WS_ETUDE.model.Grades;
-import com.sitanInfo.API_WS_ETUDE.services.GradeSevice;
+import com.sitanInfo.API_WS_ETUDE.services.GradeService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,35 +14,35 @@ import java.util.Optional;
 public class GradeController {
 
     @Autowired
-    private GradeSevice gradeSevice;
+    private GradeService gradeService;
 
     @Operation(summary = "Créer une grade")
     @PostMapping("/grade")
     public String creer(@RequestBody Grades grades){
-        return gradeSevice.creer(grades);
+        return gradeService.creer(grades);
     }
 
     @Operation(summary = "Afficher la liste des grades")
     @GetMapping("/grade")
     public List<Grades> read(){
-        return gradeSevice.lire();
+        return gradeService.lire();
     }
 
     @Operation(summary = "Afficher une grade")
     @GetMapping("/grade/{id}")
     public Optional<Grades> grades(@PathVariable int id){
-        return gradeSevice.findByid(id);
+        return gradeService.findByid(id);
     }
 
     @Operation(summary = "Modifier une grade")
     @PutMapping("/grade/{id}")
     public String update(@PathVariable int id, @RequestBody Grades grades){
-        return gradeSevice.modifier(id, grades);
+        return gradeService.modifier(id, grades);
     }
 
     @Operation(summary = "Supprimer une grade")
     @DeleteMapping("/grade/{id}")
     public String delete(@PathVariable int id){
-        return gradeSevice.supprimer(id);
+        return gradeService.supprimer(id);
     }
 }

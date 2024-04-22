@@ -16,7 +16,4 @@ public class Departement extends AbstractEntity{
     private String description;
     private String tel;
 
-    @ManyToOne(fetch =  FetchType.LAZY)
-    @JoinColumn(name = "etablissement")
-    private Etablissement etablissement;
 }

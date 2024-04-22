@@ -1,25 +1,77 @@
 package com.sitanInfo.API_WS_ETUDE.services;
 
 import com.sitanInfo.API_WS_ETUDE.model.Filieres;
-import com.sitanInfo.API_WS_ETUDE.model.Module;
+
+import com.sitanInfo.API_WS_ETUDE.repository.FiliereRepository;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface FiliereService {
+@Service
+@Data
+public class FiliereService{
 
-    //Methode pour creer une filiere
-    String creer(Filieres filieres);
+    @Autowired
+    private FiliereRepository filiereRepository;
 
-    //Afficher la liste des filiere
-    List<Filieres> lire();
+    public String creer(Filieres filieres) {
+        try {
+            Filieres filiereExiste = filiereRepository.getByCode(filieres.getCode());
+            if (filiereExiste != null) {
+                return "Cette filiere existe deja";
+            } else {
+                filiereRepository.save(filieres);
+                return "Filieres créer avec succés";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Une erreur est survenue lors de la création de la filiere.";
+        }
+    }
 
-    //Afficher une filiere
-    Optional<Filieres> findById(Integer id);
+    public List<Filieres> lire() {
+        return filiereRepository.findAll();
+    }
 
-    //Modifier une filiere
-    String modifier(Integer id, Filieres filieres);
+    public Optional<Filieres> findById(Integer id) {
+        return filiereRepository.findById(id);
+    }
 
-    //Supprimer une filiere
-    String supprimer(Integer id);
+
+    public String modifier(Integer id, Filieres filieres) {
+        try {
+            //Recherche la filiere par son id
+            Filieres filiereModifier = filiereRepository.findById(id).orElse(null);
+
+            if (filiereModifier == null) {
+                return "Filiere non trouvé";
+            }
+            //Mettre à jour les informations du module
+            filiereModifier.setCode(filieres.getCode());
+            filiereModifier.setEtat(filieres.getEtat());
+            filiereModifier.setLibelle(filieres.getLibelle());
+
+
+            //Enregistrer les modifications
+            filiereRepository.save(filiereModifier);
+
+            return "Filiere modifier avec succés";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Une erreur est survenue lors de la modification de la filiere.";
+        }
+    }
+
+
+    public String supprimer(Integer id) {
+        if (filiereRepository.existsById(id)){
+            filiereRepository.deleteById(id);
+            return "Filieres supprimer";
+        }else {
+            return "Filiere non trouvée";
+        }
+    }
 }

@@ -27,9 +27,6 @@ public class Parcours extends AbstractEntity{
     @JoinColumn(name = "formations")
     private Formation formations;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "etablissement")
-    private Etablissement etablissement;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "formationsSpecialisation")

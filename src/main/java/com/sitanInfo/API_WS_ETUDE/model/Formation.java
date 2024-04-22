@@ -22,9 +22,6 @@ public class Formation extends AbstractEntity{
     @JoinColumn(name = "grades")
     private Grades grades;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "etablissement")
-    private Etablissement etablissement;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "domaine")

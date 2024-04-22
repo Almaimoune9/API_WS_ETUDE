@@ -11,12 +11,12 @@ import java.util.Optional;
 
 @Service
 @Data
-public class GradeServiceImpl implements GradeSevice{
+public class GradeService{
 
     @Autowired
     private GradeRepository gradeRepository;
 
-    @Override
+
     public String creer(Grades grades) {
         try {
             Grades gradeExiste = gradeRepository.getByCode(grades.getCode());
@@ -32,23 +32,19 @@ public class GradeServiceImpl implements GradeSevice{
         }
     }
 
-    @Override
     public List<Grades> lire() {
         return gradeRepository.findAll();
     }
 
-    @Override
     public Optional<Grades> findByid(Integer id) {
         return gradeRepository.findById(id);
     }
 
-    @Override
     public String supprimer(Integer id) {
         gradeRepository.deleteById(id);
         return "Grade non trouvée";
     }
 
-    @Override
     public String modifier(Integer id, Grades grades) {
         return null;
     }

@@ -1,24 +1,54 @@
 package com.sitanInfo.API_WS_ETUDE.services;
 
 import com.sitanInfo.API_WS_ETUDE.model.Domaine;
+import com.sitanInfo.API_WS_ETUDE.repository.DomaineRepository;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface DomaineService {
+@Service
+@Data
+public class DomaineService {
 
-    //Méthode pour créer un domaine
-    String creer(Domaine domaine);
+    @Autowired
+    private final DomaineRepository domaineRepository;
+    public String creer(Domaine domaine) {
+        try {
+            Domaine domaineExiste = domaineRepository.getByNom(domaine.getNom());
+            if (domaineExiste!= null){
+                return "Ce domaine existe deja";
+            } else {
+                domaineRepository.save(domaine);
+                return "Domaine créer avec succés";
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            return "Une erreur est survenue lors de la création du domaine";
+        }
+    }
 
-    //Methode pour afficher la liste des domaines
-    List<Domaine> lire();
+    public List<Domaine> lire() {
+        return domaineRepository.findAll();
+    }
 
-    //Modifier un domaine
-    Domaine modifier(Integer id, Domaine domaine);
+    public Domaine modifier(Integer id, Domaine domaine) {
+        return domaineRepository.findById(id)
+                .map(d -> {
+                    d.setCode(domaine.getCode());
+                    d.setNom(domaine.getNom());
+                    return domaineRepository.save(d);
+                }).orElseThrow(()-> new RuntimeException(("Domaine non trouvé")));
+    }
 
-    //Supprimer un domaine
-    String supprimer(Integer id);
+    public String supprimer(Integer id) {
+         domaineRepository.deleteById(id);
+         return "Domaine supprimé avec succés";
+    }
 
-    //Afficher un domaine
-    Optional<Domaine> findByid(Integer id);
+    public Optional<Domaine> findByid(Integer id) {
+        return domaineRepository.findById(id);
+    }
 }

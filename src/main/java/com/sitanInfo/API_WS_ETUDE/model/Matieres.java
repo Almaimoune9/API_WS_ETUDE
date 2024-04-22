@@ -16,15 +16,9 @@ public class Matieres extends AbstractEntity{
     private Boolean etat;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "etablissement")
-    private Etablissement etablissement;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "discipline")
     private Discipline discipline;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "anneeAcademique")
-    private AnneeAcademique anneeAcademique;
 }

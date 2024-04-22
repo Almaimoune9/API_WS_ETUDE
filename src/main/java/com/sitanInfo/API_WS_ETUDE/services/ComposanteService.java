@@ -1,25 +1,70 @@
 package com.sitanInfo.API_WS_ETUDE.services;
 
 import com.sitanInfo.API_WS_ETUDE.model.Composante;
-import com.sitanInfo.API_WS_ETUDE.model.Module;
+import com.sitanInfo.API_WS_ETUDE.repository.ComposanteRepository;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ComposanteService {
+@Service
+@Data
+public class ComposanteService{
 
-    //Methode pour creer une composante
-    String creer(Composante composante);
+    @Autowired
+    private ComposanteRepository composanteRepository;
 
-    //Afficher la liste des composante
-    List<Composante> lire();
+    public String creer(Composante composante) {
+        try {
+            Composante composanteExiste = composanteRepository.getByNom(composante.getNom());
+            if (composanteExiste != null){
+                return "Cette composante existe deja";
+            } else {
+                composanteRepository.save(composante);
+                return "Composante créer";
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            return "Une erreur s'est produite lors de la création de la composante";
+        }
+    }
 
-    //Afficher une composante
-    Optional<Composante> findById(Integer id);
+    public List<Composante> lire() {
+        return composanteRepository.findAll();
+    }
 
-    //Modifier une composante
-    String modifier(Integer id, Composante composante);
+    public Optional<Composante> findById(Integer id) {
+        return composanteRepository.findById(id);
+    }
 
-    //Supprimer une composante
-    String supprimer(Integer id);
+    public String modifier(Integer id, Composante composante) {
+        try {
+            Composante composanteModifier = composanteRepository.findById(id).orElse(null);
+            if (composanteModifier == null){
+                return "Composante non trouvé";
+            }
+            //Mettre à jour les données
+            composanteModifier.setCode(composante.getCode());
+            composanteModifier.setNom(composante.getNom());
+            composanteModifier.setDescription(composante.getDescription());
+
+            //Enregistrer les modifications
+            composanteRepository.save(composanteModifier);
+            return "Composante modifiée";
+        } catch (Exception e){
+            e.printStackTrace();
+            return "Erreur lors de la modification";
+        }
+    }
+
+    public String supprimer(Integer id) {
+        if (composanteRepository.existsById(id)){
+            composanteRepository.deleteById(id);
+            return "Composante supprimée";
+        }else {
+            return "Cette composante n'existe pas";
+        }
+    }
 }

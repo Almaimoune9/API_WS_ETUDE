@@ -15,15 +15,9 @@ public class Module extends AbstractEntity{
     private String libelle;
     private Boolean etat;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "etablissement")
-    private Etablissement etablissement;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "domaine")
     private Domaine domaine;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "anneeAcademique")
-    private AnneeAcademique anneeAcademique;
 }

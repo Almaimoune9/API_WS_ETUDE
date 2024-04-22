@@ -13,7 +13,4 @@ public class Grades extends AbstractEntity{
     private String nbreAnnee;
     private Boolean etat;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "etablissement")
-    private Etablissement etablissement;
 }
