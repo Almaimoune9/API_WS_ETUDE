@@ -14,7 +14,7 @@ import java.util.Optional;
 public class DomaineService {
 
     @Autowired
-    private final DomaineRepository domaineRepository;
+    private DomaineRepository domaineRepository;
     public String creer(Domaine domaine) {
         try {
             Domaine domaineExiste = domaineRepository.getByNom(domaine.getNom());
@@ -34,18 +34,32 @@ public class DomaineService {
         return domaineRepository.findAll();
     }
 
-    public Domaine modifier(Integer id, Domaine domaine) {
-        return domaineRepository.findById(id)
-                .map(d -> {
-                    d.setCode(domaine.getCode());
-                    d.setNom(domaine.getNom());
-                    return domaineRepository.save(d);
-                }).orElseThrow(()-> new RuntimeException(("Domaine non trouvé")));
+    public String modifier(Integer id, Domaine domaine) {
+        try {
+            Domaine domaineModifier = domaineRepository.findById(id).orElse(null);
+            if (domaineModifier == null){
+                return "Domaine non trouvé";
+            }
+            //Mettre à jour les données
+            domaineModifier.setNom(domaine.getNom());
+            domaineModifier.setCode(domaine.getCode());
+
+            //Enregistrer les modifications
+            domaineRepository.save(domaineModifier);
+            return "Domaine modifier";
+        } catch (Exception e){
+            e.printStackTrace();
+            return "Erreur lors de la modification";
+        }
     }
 
     public String supprimer(Integer id) {
-         domaineRepository.deleteById(id);
-         return "Domaine supprimé avec succés";
+        if (domaineRepository.existsById(id)) {
+            domaineRepository.deleteById(id);
+            return "Domaine supprimé avec succés";
+        }else {
+            return "Ce domaine n'existe pas";
+        }
     }
 
     public Optional<Domaine> findByid(Integer id) {

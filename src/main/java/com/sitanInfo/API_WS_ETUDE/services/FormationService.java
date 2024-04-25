@@ -1,11 +1,14 @@
 package com.sitanInfo.API_WS_ETUDE.services;
 
 import com.sitanInfo.API_WS_ETUDE.model.Formation;
+import com.sitanInfo.API_WS_ETUDE.model.Habilitation;
 import com.sitanInfo.API_WS_ETUDE.repository.FormationRepository;
+import com.sitanInfo.API_WS_ETUDE.repository.HabilitationRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,20 +17,31 @@ import java.util.Optional;
 public class FormationService{
 
     @Autowired
-    private final FormationRepository formationRepository;
+    private  FormationRepository formationRepository;
 
-    public String creer(Formation formation) {
+    @Autowired
+    private HabilitationRepository habilitationRepository;
+
+    public String creer(Formation formation, Date debutHabilitation, Date finHabilitation) {
         try {
             Formation formationExiste = formationRepository.getByCode(formation.getCode());
             if (formationExiste != null){
                 return "La formation existe déjà";
             } else {
+                Habilitation habilitation = new Habilitation();
+
+                habilitation.setDebutHabilitation(debutHabilitation);
+                habilitation.setFinHabilitation(finHabilitation);
+
+                formation.setHabilitation(habilitation);
+
+
                 formationRepository.save(formation);
                 return "Formation créer";
             }
         } catch (Exception e){
             e.printStackTrace();
-            return "ne erreur est survenue lors de la création de la formation.";
+            return "Une erreur est survenue lors de la création de la formation.";
         }
     }
 
@@ -41,19 +55,20 @@ public class FormationService{
 
     public String modifier(Integer id, Formation formation) {
         try {
-            //Recherche la formation par son id
+            //Rechercher la formation par son id
             Formation formationExiste = formationRepository.findById(id).orElse(null);
 
             if (formationExiste == null){
                 return "La formation non trouvée";
             }
             //Mettre à jour les données
-            formationExiste.setSpecialite(formation.getSpecialite());
+            formationExiste.setDepart(formation.getDepart());
             formationExiste.setCode(formation.getCode());
             formationExiste.setEtat(formation.getEtat());
             formationExiste.setLibelle(formation.getLibelle());
-            formation.setSpecialisation(formation.getSpecialisation());
-            formationExiste.setType(formation.getType());
+            formation.setArrivee(formation.getArrivee());
+            /*formationExiste.setDebutHabilitation(formation.getDebutHabilitation());
+            formationExiste.setFinHabilitation(formation.getFinHabilitation());*/
 
             //Sauvegarde
             formationRepository.save(formationExiste);

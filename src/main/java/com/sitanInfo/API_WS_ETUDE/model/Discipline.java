@@ -9,6 +9,8 @@ public class Discipline extends AbstractEntity {
 
     private String code;
     private String nom;
+    private String description;
+    private boolean etat;
 
 
 }

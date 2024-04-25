@@ -38,7 +38,7 @@ public class DomaineController {
 
     @Operation(summary = "Modifier un domaine")
     @PutMapping("/domaine/{id}")
-    public Domaine update(@PathVariable int id, @RequestBody Domaine domaine){
+    public String update(@PathVariable int id, @RequestBody Domaine domaine){
         return domaineService.modifier( id, domaine);
     }
 

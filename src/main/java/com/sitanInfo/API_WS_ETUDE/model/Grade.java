@@ -5,12 +5,8 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Departement extends AbstractEntity{
-
+public class Grade extends AbstractEntity{
 
     private String code;
     private String nom;
-    private String description;
-    private String tel;
-
 }

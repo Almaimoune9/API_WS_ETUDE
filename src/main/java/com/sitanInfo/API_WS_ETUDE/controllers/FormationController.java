@@ -1,12 +1,15 @@
 package com.sitanInfo.API_WS_ETUDE.controllers;
 
 import com.sitanInfo.API_WS_ETUDE.model.Formation;
+import com.sitanInfo.API_WS_ETUDE.model.FormationCreationRequest;
+import com.sitanInfo.API_WS_ETUDE.model.Habilitation;
 import com.sitanInfo.API_WS_ETUDE.model.Module;
 import com.sitanInfo.API_WS_ETUDE.services.FormationService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,8 +22,8 @@ public class FormationController {
 
     @Operation(summary = "Créer une formation")
     @PostMapping("/formation")
-    public String create(@RequestBody Formation formation){
-        return formationService.creer(formation);
+    public String create(@RequestBody FormationCreationRequest request){
+        return formationService.creer(request.getFormation(), request.getDebutHabilitation(), request.getFinHabilitation());
     }
 
     @Operation(summary = "Afficher la liste des formations")

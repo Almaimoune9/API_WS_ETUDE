@@ -1,8 +1,6 @@
 package com.sitanInfo.API_WS_ETUDE.controllers;
 
 import com.sitanInfo.API_WS_ETUDE.model.Departement;
-import com.sitanInfo.API_WS_ETUDE.model.Module;
-import com.sitanInfo.API_WS_ETUDE.repository.DepartementRepository;
 import com.sitanInfo.API_WS_ETUDE.services.DepartementService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
